@@ -17,7 +17,8 @@ load_dotenv()
 llm = ChatOpenAI(
     model="gpt-4o-mini",
     temperature=0,
-    api_key=os.getenv("OPENAI_API_KEY"),
+    #api_key=os.getenv("OPENAI_API_KEY"),
+    api_key=st.secrets["OPENAI_API_KEY"],
     base_url="https://openrouter.ai/api/v1",
 )
 
