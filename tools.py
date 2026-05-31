@@ -6,6 +6,7 @@ import os
 import io
 from dotenv import load_dotenv
 from rich import print
+import streamlit as st
 # import pytesseract
 try:
     import pytesseract
@@ -16,7 +17,7 @@ from PIL import Image
 
 load_dotenv()
 
-tavily = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
+tavily = TavilyClient(api_key=st.secrets["TAVILY_API_KEY"])
 
 
 @tool
