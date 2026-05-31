@@ -6,7 +6,11 @@ import os
 import io
 from dotenv import load_dotenv
 from rich import print
-import pytesseract
+# import pytesseract
+try:
+    import pytesseract
+except ModuleNotFoundError:
+    pytesseract = None
 
 from PIL import Image
 
@@ -130,7 +134,11 @@ def extract_text_from_image(file_bytes: bytes) -> str:
         # Improve OCR accuracy
         image = image.convert("L")
 
-        text = pytesseract.image_to_string(image)
+        #text = pytesseract.image_to_string(image)
+        if pytesseract:
+            text = pytesseract.image_to_string(image)
+        else:
+            text = "OCR is unavailable in deployment environment."
 
         text = text.strip()
 
