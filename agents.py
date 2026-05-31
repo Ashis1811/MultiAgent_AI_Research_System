@@ -5,7 +5,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
 from tools import web_search, scrape_url
-
+import streamlit as st
 
 # ── Load Environment Variables ───────────────────────────────
 
