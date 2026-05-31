@@ -1,10 +1,10 @@
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-# from langchain_community.vectorstores import Chroma
-from langchain.vectorstores import Chroma
+from langchain_community.vectorstores import Chroma
 
 from langchain_openai import OpenAIEmbeddings
+import streamlit as st
 
 import os
 
@@ -16,7 +16,7 @@ load_dotenv()
 # ── Embedding Model ─────────────────────────────
 
 embeddings = OpenAIEmbeddings(
-    api_key=os.getenv("OPENAI_API_KEY"),
+    api_key=st.secrets["OPENAI_API_KEY"],
     base_url="https://openrouter.ai/api/v1",
     model="text-embedding-3-small"
 )
