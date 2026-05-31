@@ -135,9 +135,9 @@ def extract_text_from_image(file_bytes: bytes) -> str:
         image = image.convert("L")
 
         # text = pytesseract.image_to_string(image)
-       if pytesseract:
+        if pytesseract:
             text = pytesseract.image_to_string(image)
-       else:
+        else:
             text = "OCR unavailable in deployed environment."
 
         text = text.strip()
