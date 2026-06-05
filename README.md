@@ -47,7 +47,7 @@ It also supports a **Document Mode (RAG)** where users can upload PDFs, images, 
 - ✍️ **Writer Chain** — Synthesizes gathered research into a structured report
 - 🧐 **Critic Chain** — Reviews and scores the report (quality, accuracy, completeness)
 - 📎 **Document Upload (RAG)** — Upload PDFs, images, TXT, CSV, or Markdown files
-- 🧬 **Vector Search** — FAISS-powered semantic retrieval over uploaded documents
+- 🧬 **Vector Search** — ChromaDB-powered semantic retrieval over uploaded documents
 - ⬇️ **Download Reports** — Export final reports as `.md` files
 - 🎨 **Premium Dark UI** — Sci-fi editorial design with animated pipeline status cards
 
@@ -62,7 +62,7 @@ It also supports a **Document Mode (RAG)** where users can upload PDFs, images, 
 | **Agent Framework** | LangChain | Agent orchestration and tool use |
 | **Web Search** | Tavily API | Real-time web search for the Search Agent |
 | **Web Scraping** | BeautifulSoup4 + Requests | URL scraping for the Reader Agent |
-| **RAG / Embeddings** | FAISS + LangChain Embeddings | Vector store for document mode |
+| **RAG / Embeddings** | ChromaDB + OpenAI text-embedding-3-small | Vector store for document mode |
 | **PDF Extraction** | PyMuPDF (fitz) / pdfplumber | Text extraction from PDF uploads |
 | **OCR** | pytesseract + Pillow | Text extraction from image uploads |
 | **Environment** | python-dotenv | API key management |
@@ -99,7 +99,7 @@ User Input (Topic or File Upload)
    Final Research Report (.md)
 
 ─── Document Mode (RAG) ───────────────────
-File Upload → Text Extraction → FAISS Index
+File Upload → Text Extraction → ChromaDB
            → Semantic Retrieval → RAG Chain
            → Answer + Report
 ```
@@ -143,9 +143,9 @@ def scrape_url(url: str) -> str:
 
 Created four components of the pipeline:
 
-**Search Agent** — A LangChain ReAct agent equipped with the `web_search` tool. Given a topic, it searches and returns structured results.
+**Search Agent** — A LangChain SimpleAgent equipped with the `web_search` tool. Given a topic, it searches and returns structured results.
 
-**Reader Agent** — A LangChain ReAct agent equipped with the `scrape_url` tool. It picks the most relevant URL from search results and extracts deep content.
+**Reader Agent** — A LangChain SimpleAgent equipped with the `scrape_url` tool. It picks the most relevant URL from search results and extracts deep content.
 
 **Writer Chain** — A simple `prompt | llm | StrOutputParser` chain. Takes the combined research (search results + scraped content) and writes a structured report with Introduction, Key Findings, Conclusion, and Sources.
 
@@ -165,14 +165,14 @@ writer_chain = writer_prompt | llm | StrOutputParser()
 
 Added Retrieval-Augmented Generation for document uploads:
 
-- `create_vector_store(text)` — splits the document into chunks using `RecursiveCharacterTextSplitter`, embeds them with OpenAI embeddings, and stores in a FAISS index
+- `create_vector_store(text)` — splits the document into chunks using `RecursiveCharacterTextSplitter`, embeds them with OpenAI embeddings, and stores in a ChromaDB vector store
 - `retrieve_relevant_context(vectorstore, query)` — retrieves the top-k most semantically similar chunks to the user's question
 
 ```python
 def create_vector_store(text: str):
     splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     chunks = splitter.create_documents([text])
-    return FAISS.from_documents(chunks, embeddings)
+    return Chroma.from_documents(chunks, embeddings)
 ```
 
 ### Step 5 — Build the CLI Pipeline (`pipeline.py`)
@@ -225,7 +225,7 @@ Multi Agent/
 ├── app.py              # Main Streamlit UI — pipeline orchestration + all rendering
 ├── agents.py           # LangChain agents, writer chain, critic chain, RAG chain
 ├── tools.py            # web_search, scrape_url, file extraction functions
-├── rag.py              # FAISS vector store creation and context retrieval
+├── rag.py              # ChromaDB vector store creation and context retrieval
 ├── pipeline.py         # CLI version for local testing without UI
 │
 ├── requirements.txt    # Python dependencies
@@ -341,5 +341,5 @@ This project is licensed under the MIT License.
 ---
 
 <div align="center">
-Built with ❤️ using LangChain · Streamlit · OpenAI · Tavily
+Built with using LangChain · Streamlit · OpenAI · Tavily · ChromaDB
 </div>
