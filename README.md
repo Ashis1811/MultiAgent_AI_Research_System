@@ -10,7 +10,7 @@
 
 **Four specialized AI agents collaborate in real time to deliver polished, verified research reports on any topic.**
 
-[Live Demo](https://multiagentairesearchsystem-dxn5xshp9agf5qmp6kbaf5.streamlit.app/) · [Report Bug](https://github.com/Ashis1811/MultiAgent_AI_Research_System/issues/new?template=bug_report.md) · [Request Feature](https://github.com/Ashis1811/MultiAgent_AI_Research_System/issues/new?template=feature_request.md)
+[Live Demo](https://multiagentairesearchsystem-dgpajdfqybirappeesi5qhs.streamlit.app/) · [Report Bug](https://github.com/Ashis1811/MultiAgent_AI_Research_System/issues/new?template=bug_report.md) · [Request Feature](https://github.com/Ashis1811/MultiAgent_AI_Research_System/issues/new?template=feature_request.md)
 
 </div>
 
